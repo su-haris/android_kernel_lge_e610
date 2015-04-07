@@ -209,8 +209,6 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_800[] = {
         { 1, 1100000, ACPU_PLL_2, 2, 0, 137500, 3, 7, 200000 },	
 	{ 0 }
 };
-	{ 0 }
-};
 
 /* 7627a PLL2 @ 1200MHz with CDMA capable modem */
 static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_800[] = {
