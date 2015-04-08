@@ -201,12 +201,13 @@ static struct clkctl_acpu_speed pll0_960_pll1_245_pll2_1200_pll4_800[] = {
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
 /*Now undervolt is enabled by default*/
 	{ 1, 800000, ACPU_PLL_4, 6, 0, 100000, 3, 6, 200000 },
-/*Now overclock is enabled by default*/
+#ifdef CONFIG_MSM7X27A_OVERCLOCK
         { 1, 900000, ACPU_PLL_2, 2, 0, 112500, 3, 7, 200000 },
         { 1, 950000, ACPU_PLL_2, 2, 0, 118750, 3, 7, 200000 },
         { 1, 1000000, ACPU_PLL_2, 2, 0, 125000, 3, 7, 200000 },        
         { 1, 1050000, ACPU_PLL_2, 2, 0, 131250, 3, 7, 200000 },
         { 1, 1100000, ACPU_PLL_2, 2, 0, 137500, 3, 7, 200000 },	
+#endif
 	{ 0 }
 };
 
@@ -223,12 +224,13 @@ static struct clkctl_acpu_speed pll0_960_pll1_196_pll2_1200_pll4_800[] = {
 	{ 1, 600000, ACPU_PLL_2, 2, 1, 75000, 3, 6, 160000 },
 /*Now undervolt is enabled by default*/
 	{ 1, 800000, ACPU_PLL_4, 6, 0, 100000, 3, 6, 200000 },
-/*Now overclock is enabled by default*/
+#ifdef CONFIG_MSM7X27A_OVERCLOCK
         { 1, 900000, ACPU_PLL_2, 2, 0, 112500, 3, 7, 200000 },
         { 1, 950000, ACPU_PLL_2, 2, 0, 118750, 3, 7, 200000 },
         { 1, 1000000, ACPU_PLL_2, 2, 0, 125000, 3, 7, 200000 },        
         { 1, 1050000, ACPU_PLL_2, 2, 0, 131250, 3, 7, 200000 },
         { 1, 1100000, ACPU_PLL_2, 2, 0, 137500, 3, 7, 200000 },	
+#endif
 	{ 0 }
 };
 
@@ -629,10 +631,22 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s)
 {
 	uint32_t reg_clkctl, reg_clksel, clk_div, src_sel;
 
+ 	#ifdef CONFIG_MSM7X27A_OVERCLOCK	
+	uint32_t a11_div;	
+ 	#endif
+
 	reg_clksel = readl_relaxed(A11S_CLK_SEL_ADDR);
 
 	/* AHB_CLK_DIV */
 	clk_div = (reg_clksel >> 1) & 0x03;
+#ifdef CONFIG_MSM7X27A_OVERCLOCK
+	a11_div=hunt_s->a11clk_src_div;
+         if(hunt_s->a11clk_khz>800000) {
+         a11_div=0;
+         writel(hunt_s->a11clk_khz/19200, MSM_CLK_CTL_BASE+0x33C);
+         udelay(50);
+}
+#endif
 	/* CLK_SEL_SRC1NO */
 	src_sel = reg_clksel & 1;
 
