@@ -339,6 +339,7 @@ ifdef CONFIG_CCACHE
 REAL_CC		= ccache $(CROSS_COMPILE)gcc
 else
 REAL_CC		= $(CROSS_COMPILE)gcc
+endif
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
