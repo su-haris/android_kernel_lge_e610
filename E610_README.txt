@@ -20,7 +20,7 @@
   - cd kernel
   - export ARCH=arm
   - export TARGET_PRODUCT=m4_open_eu
-  - export CROSS_COMPILE=~/android/android_prebuilt_toolchains/arm-eabi-4.4.3/bin/arm-eabi-
+  - export CROSS_COMPILE=~/android/android_prebuilt_toolchains/arm-eabi-4.7/bin/arm-eabi-
   - make m4-rev11_defconfig
   - make zImage
 
