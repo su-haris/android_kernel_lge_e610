@@ -89,10 +89,10 @@ scm_version()
 		# Update index only on r/w media
 		[ -w . ] && git update-index --refresh --unmerged > /dev/null
 
-		# Check for uncommitted changes
-		if git diff-index --name-only HEAD | grep -qv "^scripts/package"; then
-			printf '%s' -dirty
-		fi
+		# Dont give a shit about check for uncommitted changes
+		#if git diff-index --name-only HEAD | grep -qv "^scripts/package"; then
+		#	printf '%s' -dirty
+		#fi
 
 		# All done with git
 		return
@@ -183,7 +183,7 @@ else
 	# looks at signed or annotated tags - git tag -a/-s) and
 	# LOCALVERSION= is not specified
 	if test "${LOCALVERSION+set}" != "set"; then
-		scm=$(scm_version --short)
+		scm=$(scm_version)
 		res="$res"
 	fi
 fi
